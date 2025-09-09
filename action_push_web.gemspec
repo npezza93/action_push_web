@@ -5,21 +5,18 @@ Gem::Specification.new do |spec|
   spec.version     = ActionPushWeb::VERSION
   spec.authors     = [ "Nick Pezza" ]
   spec.email       = [ "pezza@hey.com" ]
-  spec.homepage    = "TODO"
-  spec.summary     = "TODO: Summary of ActionPushWeb."
-  spec.description = "TODO: Description of ActionPushWeb."
-  spec.license     = "MIT"
 
-  # Prevent pushing this gem to RubyGems.org. To allow pushes either set the "allowed_push_host"
-  # to allow pushing to a single host or delete this section to allow pushing to any host.
-  spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
+  spec.summary = "Send push notifications to web apps"
+  spec.description = "Send push notifications to web apps"
+  spec.homepage = "https://github.com/npezza93/action_push_web"
+  spec.license = "MIT"
 
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "TODO: Put your gem's public repo URL here."
-  spec.metadata["changelog_uri"] = "TODO: Put your gem's CHANGELOG.md URL here."
+  spec.metadata["source_code_uri"] = spec.homepage
+  spec.metadata["rubygems_mfa_required"] = "true"
 
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
-    Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
+    Dir["{app,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
   end
 
   rails_version = ">= 8.0"
