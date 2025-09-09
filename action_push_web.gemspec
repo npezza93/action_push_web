@@ -22,5 +22,10 @@ Gem::Specification.new do |spec|
     Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
   end
 
-  spec.add_dependency "rails", ">= 8.0.2"
+  rails_version = ">= 8.0"
+  spec.add_dependency "activerecord", rails_version
+  spec.add_dependency "activejob", rails_version
+  spec.add_dependency "railties", rails_version
+  spec.add_dependency "net-http"
+  spec.add_dependency "net-http-persistent"
 end
