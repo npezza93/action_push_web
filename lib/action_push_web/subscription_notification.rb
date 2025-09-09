@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module ActionPushWeb
   class SubscriptionNotification
     def initialize(notification:, subscription:)

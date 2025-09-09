@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module ActionPushWeb
   class VapidKey
     attr_reader :ec_key, :public_key, :private_key

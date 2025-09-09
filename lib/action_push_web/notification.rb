@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module ActionPushWeb
   class Notification
     extend ActiveModel::Callbacks
@@ -16,13 +14,6 @@ module ActionPushWeb
       def queue_as(name)
         self.queue_name = name
       end
-
-      delegate :with_data, to: :configured_notification
-
-      private
-        def configured_notification
-          ConfiguredNotification.new(self)
-        end
     end
 
     def initialize(title:, body: nil, path: nil, icon_path: nil, badge: nil)

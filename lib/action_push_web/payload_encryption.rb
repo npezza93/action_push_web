@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module ActionPushWeb
   class PayloadEncryption
     def initialize(message:, p256dh_key:, auth_key:)
