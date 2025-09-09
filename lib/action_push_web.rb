@@ -3,7 +3,7 @@ require "action_push_web/engine"
 require "action_push_web/errors"
 require "net/http"
 require "net/http/persistent"
-require "web-push"
+require "jwt"
 
 loader= Zeitwerk::Loader.for_gem(warn_on_extra_files: false)
 loader.ignore("#{__dir__}/generators")

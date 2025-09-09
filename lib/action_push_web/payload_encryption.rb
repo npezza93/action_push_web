@@ -17,7 +17,7 @@ module ActionPushWeb
       aes128gcmheader = "#{salt}" + [ rs ].pack("N*") +
         [ serverkey16bn.bytesize ].pack("C*") + serverkey16bn
 
-      aes128gcmheader + encyrpted_payload
+      aes128gcmheader + encrypted_payload
     end
 
     attr_reader :message, :p256dh_key, :auth_key

@@ -28,4 +28,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "railties", rails_version
   spec.add_dependency "net-http"
   spec.add_dependency "net-http-persistent"
+  spec.add_dependency "jwt"
 end

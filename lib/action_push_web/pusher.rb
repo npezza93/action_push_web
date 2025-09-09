@@ -26,7 +26,7 @@ module ActionPushWeb
     end
 
     def payload
-      @payload ||= PayloadEncryption.new(message, p256dh_key, auth_key).encrypt
+      @payload ||= PayloadEncryption.new(message:, p256dh_key:, auth_key:).encrypt
     end
 
     def vapid_identification
@@ -66,7 +66,7 @@ module ActionPushWeb
 
     def handle_response(response)
       if response.is_a?(Net::HTTPGone) # 410
-        raise ExpiredSubscription.new
+        raise TokenError.new
       elsif response.is_a?(Net::HTTPNotFound) # 404
         raise InvalidSubscription.new
       elsif response.is_a?(Net::HTTPUnauthorized) || response.is_a?(Net::HTTPForbidden) || # 401, 403
