@@ -12,6 +12,72 @@ Action Push Web is a Rails push notification gem for the web and PWAs.
 
 This will install the gem and run the necessary migrations to set up the database.
 
+### With import maps
+
+If you are using [propshaft](https://github.com/rails/propshaft) and [import maps](https://github.com/rails/importmap-rails):
+
+```ruby
+# importmap.rb
+pin "action_push_web", to: "action_push_web.js"
+```
+
+Then import it in your JavaScript entry point:
+
+```javascript
+// app/javascript/application.js
+import "action_push_web"
+```
+
+This comes with 3 custom HTML elements that can be accessed via helpers.
+
+The first is when the user has not granted permission to send notifications. It
+requires an `href` attribute to be passed to the helper. The path should point
+to a controller that creates a `ApplicationPushSubscription`. You can use what
+ever HTML you want inside these components. Once the user either grants or denies
+permission the component will hide itself.
+
+```erb
+<%= ask_for_web_notifications(href: push_subscriptions_path) do %>
+  Request permission
+<% end %>
+```
+
+An example controller that creates a subscription:
+```ruby
+class PushSubscriptionsController < ApplicationController
+  def create
+    if subscription = ApplicationPushSubscription.find_by(push_subscription_params)
+      subscription.touch
+    else
+      ApplicationPushSubscription.create! push_subscription_params.merge(user_agent: request.user_agent)
+    end
+
+    head :ok
+  end
+
+  private
+    def push_subscription_params
+      params.require(:push_subscription).permit(:endpoint, :p256dh_key, :auth_key)
+    end
+end
+```
+
+If a user denies permission to send notifications:
+
+```erb
+<%= when_web_notifications_disabled do %>
+  Notifications aren’t allowed
+<% end %>
+```
+
+And if a user grants permission to send notifications:
+
+```erb
+<%= when_web_notifications_allowed do %>
+  Notifications are allowed
+<% end %>
+```
+
 ## Configuration
 
 The installation will create:
