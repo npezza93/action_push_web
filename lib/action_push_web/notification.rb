@@ -2,7 +2,7 @@ module ActionPushWeb
   class Notification
     extend ActiveModel::Callbacks
 
-    attr_accessor :title, :body, :badge, :icon_path, :path
+    attr_accessor :title, :body, :badge, :icon_path, :path, :context
 
     define_model_callbacks :delivery
 
@@ -16,8 +16,9 @@ module ActionPushWeb
       end
     end
 
-    def initialize(title:, body: nil, path: nil, icon_path: nil, badge: nil)
+    def initialize(title:, path:, body: nil, icon_path: nil, badge: nil, **context)
       @title, @body, @path, @icon_path, @badge = title, body, path, icon_path, badge
+      @context = context
     end
 
     def deliver_to(subscription)
@@ -33,7 +34,7 @@ module ActionPushWeb
     end
 
     def as_json
-      { title:, body:, path:, badge: }.compact
+      { title:, body:, path:, badge:, **context }.compact
     end
   end
 end

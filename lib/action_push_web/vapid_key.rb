@@ -1,6 +1,6 @@
 module ActionPushWeb
   class VapidKey
-    attr_reader :ec_key, :public_key, :private_key
+    attr_reader :public_key, :private_key
 
     def initialize(public_key, private_key)
       @public_key = public_key

@@ -5,9 +5,6 @@ module ActionPushWeb
     class_attribute :report_job_retries, default: false
 
     discard_on ActiveJob::DeserializationError
-    discard_on BadDeviceTopicError do |_job, error|
-      Rails.error.report(error)
-    end
 
     class << self
       def retry_options
@@ -37,16 +34,11 @@ module ActionPushWeb
     end
 
     with_options retry_options do
-      retry_on TimeoutError, wait: 1.minute
-      retry_on ConnectionError, ConnectionPool::TimeoutError, attempts: 20
-
-      # Altough unexpected, these are short-lived errors that can be retried most of the times.
-      retry_on ForbiddenError, BadRequestError
+      retry_on PushServiceError, attempts: 20
     end
 
     with_options wait: ->(executions) { exponential_backoff_delay(executions) }, attempts: 6, **retry_options do
-      retry_on TooManyRequestsError, ServiceUnavailableError, InternalServerError
-      retry_on Signet::RemoteServerError
+      retry_on TooManyRequestsError, ResponseError
     end
 
     def perform(notification_class, notification_attributes, subscription)
