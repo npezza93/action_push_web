@@ -12,6 +12,11 @@ Action Push Web is a Rails push notification gem for the web and PWAs.
 
 This will install the gem and run the necessary migrations to set up the database.
 
+You'll need to add `<%= action_push_web_key_tag %>` to the <head> of your application's layout.
+
+The install generator will also output a generated public and private key that
+you'll want to add to your credentitals.
+
 ### With import maps
 
 If you are using [propshaft](https://github.com/rails/propshaft) and [import maps](https://github.com/rails/importmap-rails):
@@ -38,7 +43,7 @@ permission the component will hide itself.
 
 ```erb
 <%= ask_for_web_notifications(href: push_subscriptions_path) do %>
-  Request permission
+  <div class="text-blue">Request permission</div>
 <% end %>
 ```
 
@@ -66,14 +71,14 @@ If a user denies permission to send notifications:
 
 ```erb
 <%= when_web_notifications_disabled do %>
-  Notifications aren’t allowed
+  <div class="text-red">Notifications aren’t allowed</div>
 <% end %>
 ```
 
 And if a user grants permission to send notifications:
 
 ```erb
-<%= when_web_notifications_allowed do %>
+<%= when_web_notifications_allowed class: "text-green" do %>
   Notifications are allowed
 <% end %>
 ```
