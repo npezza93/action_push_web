@@ -1,0 +1,11 @@
+shared:
+  web:
+    public_key: "BOaoI0PmiQ4F82scp_4bjqFk-qunkBZG0L0PxiwLiXj_wHQ75w6pkDiuddDhBQyUhSmBaB8aEUzcxS5Zg_epdJc="
+    private_key: "6yz7Z91KV2kBL51lglduuvv8iEMCIwSinNeJsKDiQdY="
+
+    # Set this to the number of threads used to process notifications (default: 5).
+    # When the pool size is too small a ConnectionPool::TimeoutError error will be raised.
+    # connection_pool_size: 5
+
+    # Change the request timeout (default: 30).
+    request_timeout: 60

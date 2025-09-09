@@ -7,6 +7,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <%= action_push_web_key_tag %>
 
     <%= yield :head %>
 
@@ -19,6 +20,7 @@
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app %>
+    <%= javascript_include_tag :action_push_web %>
   </head>
 
   <body>
