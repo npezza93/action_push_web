@@ -12,12 +12,7 @@ loader.setup
 
 module ActionPushWeb
   def self.pool
-    @pool ||= Pool.new(
-        invalid_subscription_handler: ->(subscription_id) do
-          Rails.application.executor.wrap do
-            ActionPushWeb::Subscription.find_by(id: subscription_id)&.destroy
-          end
-        end)
+    @pool ||= Pool.new
   end
 
   def self.config_for(application)

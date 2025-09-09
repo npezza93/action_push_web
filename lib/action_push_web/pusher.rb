@@ -12,6 +12,8 @@ module ActionPushWeb
       request.body = payload
 
       connection.request(uri, request).tap { handle_response(it) }
+    rescue OpenSSL::OpenSSLError
+      raise TokenError.new
     end
 
     private

@@ -1,12 +1,11 @@
 module ActionPushWeb
   class Pool
-    attr_reader :delivery_pool, :invalidation_pool, :connection, :invalid_subscription_handler
+    attr_reader :delivery_pool, :invalidation_pool, :connection
 
-    def initialize(invalid_subscription_handler:)
+    def initialize
       @delivery_pool = Concurrent::ThreadPoolExecutor.new(max_threads: 50, queue_size: 10000)
       @invalidation_pool = Concurrent::FixedThreadPool.new(1)
       @connection = Net::HTTP::Persistent.new(name: "action_push_web", pool_size: 150)
-      @invalid_subscription_handler = invalid_subscription_handler
     end
 
     def enqueue(notification, config:)
@@ -28,16 +27,15 @@ module ActionPushWeb
 
       def deliver(notification, config)
         Pusher.new(config, notification).push(connection:)
-      rescue ExpiredSubscription, OpenSSL::OpenSSLError => _ex
-        # Map to invalidation; SubscriptionNotification must expose subscription_id
-        invalidate_subscription_later(notification.subscription_id) if invalid_subscription_handler
+      rescue TokenError => error
+        invalidate_subscription_later(notification.subscription, error)
       end
 
-      def invalidate_subscription_later(id)
+      def invalidate_subscription_later(subscription, error)
         invalidation_pool.post do
-          invalid_subscription_handler.call(id)
+         subscription.rescue_with_handler(error)
         rescue Exception => e
-          Rails.logger.error "Error in ActionPushWeb::Pool.invalid_subscription_handler: #{e.class} #{e.message}"
+          Rails.logger.error "Error in ActionPushWeb::Pool.invalidate_subscription_later: #{e.class} #{e.message}"
         end
       end
 
