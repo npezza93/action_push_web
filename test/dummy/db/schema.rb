@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_07_213606) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_08_194847) do
   create_table "action_push_web_subscriptions", force: :cascade do |t|
     t.string "owner_type"
     t.integer "owner_id"
@@ -21,5 +21,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_213606) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["owner_type", "owner_id"], name: "index_action_push_web_subscriptions_on_owner"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.string "text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 end

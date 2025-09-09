@@ -1,0 +1,28 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Comments" %>
+
+<h1>Comments</h1>
+
+<div id="comments">
+  <% @comments.each do |comment| %>
+    <%= render comment %>
+    <p>
+      <%= link_to "Show this comment", comment %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New comment", new_comment_path %>
+
+<%= ask_for_web_notifications(href: push_subscriptions_path) do %>
+  Request permission
+<% end %>
+
+<%= when_web_notifications_disabled do %>
+  Notifications aren’t allowed
+<% end %>
+
+<%= when_web_notifications_allowed do %>
+  Notifications are allowed
+<% end %>

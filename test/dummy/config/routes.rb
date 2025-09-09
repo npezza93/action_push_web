@@ -1,3 +1,4 @@
 Rails.application.routes.draw do
-  mount ActionPushWeb::Engine => "/action_push_web"
+  resources :comments
+  root to: "comments#index"
 end
