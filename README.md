@@ -131,7 +131,7 @@ directly in your application.
 `app/models/application_push_subscription.rb`:
 
 ```ruby
-class ApplicationPushSubscription < ActionPushNative::Subscription
+class ApplicationPushSubscription < ActionPushWeb::Subscription
   # Customize TokenError handling (default: destroy!)
   # rescue_from (ActionPushWeb::TokenError) { Rails.logger.error("Subscription #{id} token is invalid") }
 end
@@ -211,15 +211,14 @@ shared:
 
 ```ruby
 subscription = ApplicationPushSubscription.create! \
-  user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.6 Mobile/15E148 Safari/604.1"
+  user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.6 Mobile/15E148 Safari/604.1",
   auth_key: "foStsVKvFCvKS1KJF4OaDS",
-  p256dh_key:
-    "8YZosOgeQYI1lXr6Enahllf56j0VvEynIIm0q37k19QdbclLPNbACud8XSgS1b04TNAFlwyS1niwMx9LoLp8Hsx",
+  p256dh_key: "8YZosOgeQYI1lXr6Enahllf56j0VvEynIIm0q37k19QdbclLPNbACud8XSgS1b04TNAFlwyS1niwMx9LoLp8Hsx",
   endpoint: "https://web.push.apple.com/2UtCfdxa01DJYCW0R7qnA9u4JqYnYo5CHSlR0b95JnMhAW1Zy32ZN9BTLY8KLXogMU3EMuYDWNgdUcX8OaNEZCQOhFp7zeo8US2ZvKYdvGxAjx1ELZH9e3yXHEYlco6vKLfsgOCZxabp63rt80voC5n9i6IzAvMgWmcwz5INfBd"
 
 notification = ApplicationPushWebNotification.new \
   title: "Hello world!",
-  body:  "Welcome to Action Push Native"
+  body:  "Welcome to Action Push Web",
   path:  "/welcome"
 
 notification.deliver_later_to(subscription)
@@ -245,10 +244,10 @@ This ensures error handling and retry logic are in place, and avoids blocking yo
 A Subscription can be associated with any record in your application via the `owner` polymorphic association:
 
 ```ruby
-  user = User.find_by_email_address("jacopo@37signals.com")
+  user = User.find_by_email_address("pezza@hey.com")
 
   ApplicationPushSubscription.create! \
-    user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.6 Mobile/15E148 Safari/604.1"
+    user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.6 Mobile/15E148 Safari/604.1",
     auth_key: "foStsVKvFCvKS1KJF4OaDS",
     p256dh_key: "8YZosOgeQYI1lXr6Enahllf56j0VvEynIIm0q37k19QdbclLPNbACud8XSgS1b04TNAFlwyS1niwMx9LoLp8Hsx",
     endpoint: "https://web.push.apple.com/2UtCfdxa01DJYCW0R7qnA9u4JqYnYo5CHSlR0b95JnMhAW1Zy32ZN9BTLY8KLXogMU3EMuYDWNgdUcX8OaNEZCQOhFp7zeo8US2ZvKYdvGxAjx1ELZH9e3yXHEYlco6vKLfsgOCZxabp63rt80voC5n9i6IzAvMgWmcwz5INfBd",
