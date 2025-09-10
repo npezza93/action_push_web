@@ -7,9 +7,14 @@ class ActionPushWeb::InstallGenerator < Rails::Generators::Base
     template "app/models/application_push_subscription.rb"
     template "app/models/application_push_web_notification.rb"
     template "app/jobs/application_push_web_notification_job.rb"
-    template "config/push.yml"
     template "app/views/pwa/service-worker.js"
     route "mount ActionPushWeb::Engine => \"/action_push_web\""
+
+    if Rails.root.join("config/push.yml").exist?
+      append_to_file "config/push.yml", File.read("#{self.class.source_root}/config/push.yml.tt").split("\n")[1..].join("\n").prepend("\n")
+    else
+      template "config/push.yml"
+    end
 
     if Rails.root.join("app/javascript/application.js").exist?
       append_to_file "app/javascript/application.js", %(import "action_push_web"\n)
