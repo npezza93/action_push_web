@@ -38,9 +38,25 @@ module ActionPushWeb
             path: "/home", calendar_id: 1)
 
       expected = { title: "Hi!", body: "This is a push notification", badge: 1,
-          path: "/home", calendar_id: 1 }
+          path: "/home", calendar_id: 1, urgency: "normal" }
 
       assert_equal(expected, notification.as_json)
+    end
+
+    test "#urgency when set in notification" do
+      stub_config("push_urgency.yml")
+      notification = ActionPushWeb::Notification.
+        new(title: "Hi!", path: "/home", urgency: :stat)
+
+      assert_equal("stat", notification.as_json[:urgency])
+    end
+
+    test "#urgency when set in config" do
+      stub_config("push_urgency.yml")
+
+      notification = ActionPushWeb::Notification.
+        new(title: "Hi!", path: "/home")
+      assert_equal("low", notification.as_json[:urgency])
     end
 
     private
@@ -51,6 +67,10 @@ module ActionPushWeb
           badge: 1,
           path: "/home",
           calendar_id: 1
+      end
+
+      def stub_config(name)
+        Rails.application.stubs(:config_for).returns(YAML.load_file(file_fixture("config/#{name}"), symbolize_names: true))
       end
   end
 end

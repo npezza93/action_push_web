@@ -41,7 +41,7 @@ module ActionPushWeb
     def headers
       headers = {}
       headers["Content-Type"]     = "application/octet-stream"
-      headers["Urgency"]          = notification.urgency.presence || config.fetch(:urgency, :normal).to_s
+      headers["Urgency"]          = notification.urgency
       headers["Ttl"]              = config.fetch(:ttl, 60 * 60 * 24 * 7 * 4).to_s
       headers["Content-Encoding"] = "aes128gcm"
       headers["Content-Length"]   = payload.length.to_s

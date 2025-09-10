@@ -40,11 +40,21 @@ module ActionPushWeb
     end
 
     def icon_path
-      @icon_path || ActionPushWeb.config_for(application)[:icon_path]
+      @icon_path.presence || config.fetch(:icon_path, nil)
+    end
+
+    def urgency
+      (@urgency.presence || config.fetch(:urgency, :normal)).to_s
     end
 
     def as_json
       { title:, body:, path:, badge:, icon_path:, urgency:, **context }.compact
+    end
+
+    private
+
+    def config
+      @config ||= ActionPushWeb.config_for(application)
     end
   end
 end
