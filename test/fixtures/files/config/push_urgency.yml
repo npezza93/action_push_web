@@ -2,3 +2,11 @@ web:
   public_key: public_key
   private_key: private_key
   urgency: low
+
+  application:
+    public_key: public_key
+    private_key: private_key
+    urgency: low
+
+  calendar:
+    urgency: now

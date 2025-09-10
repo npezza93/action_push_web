@@ -59,6 +59,42 @@ module ActionPushWeb
       assert_equal("low", notification.as_json[:urgency])
     end
 
+    test "#urgency when set in application config" do
+      stub_config("push_urgency.yml")
+
+      notification = CalendarPushNotification.
+        new(title: "Hi!", path: "/home")
+      assert_equal("now", notification.as_json[:urgency])
+    end
+
+    test "#urgency when not set" do
+      notification = ActionPushWeb::Notification.
+        new(title: "Hi!", path: "/home")
+      assert_equal("normal", notification.as_json[:urgency])
+    end
+
+    test "#icon_path when set in notification" do
+      stub_config("push_icon_path.yml")
+      notification = ActionPushWeb::Notification.
+        new(title: "Hi!", path: "/home", icon_path: "/icon.png")
+
+      assert_equal("/icon.png", notification.as_json[:icon_path])
+    end
+
+    test "#icon_path when set in config" do
+      stub_config("push_icon_path.yml")
+
+      notification = ActionPushWeb::Notification.
+        new(title: "Hi!", path: "/home")
+      assert_equal("/notif.png", notification.as_json[:icon_path])
+    end
+
+    test "#icon_path when not set" do
+      notification = ActionPushWeb::Notification.
+        new(title: "Hi!", path: "/home")
+      assert_nil(notification.as_json[:icon_path])
+    end
+
     private
       def build_notification
         ActionPushWeb::Notification.new \

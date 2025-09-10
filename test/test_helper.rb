@@ -26,3 +26,7 @@ class InlinePoolExecutor
   def shutdown; end
   def wait_for_termination(*) = true
 end
+
+class CalendarPushNotification < ApplicationPushWebNotification
+  self.application = "calendar"
+end

@@ -1,9 +1,5 @@
 require "test_helper"
 
-class CalendarPushNotification < ApplicationPushWebNotification
-  self.application = "calendar"
-end
-
 class ActionPushWebTest < ActiveSupport::TestCase
   test "config_for application" do
     stub_config("push_web.yml")
