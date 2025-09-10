@@ -15,56 +15,6 @@ This will install the gem and run the necessary migrations to set up the databas
 The install generator will also output a generated public and private key that
 you'll want to add to your credentitals.
 
-This comes with 3 custom HTML elements that can be accessed via helpers.
-
-The first is when the user has not yet granted permission to send notifications. It
-accepts an `href` attribute to be passed to the helper that points to a create
-action that handles creating a push subscription. By default it points to the
-controller included in ActionPushWeb, `action_push_web.subscriptions_path`. It
-also accepts a `service_worker_url` attribute that points to the service worker.
-By default it points to `pwa_service_worker_path(format: :js)`
-
-You can use what ever HTML you want inside these components. Once the user either grants or denies
-permission the component will hide itself.
-
-```erb
-<%= ask_for_web_notifications(href: action_push_web.subscriptions_path) do %>
-  <div class="text-blue">Request permission</div>
-<% end %>
-```
-
-You can alternatively create a custom controller that handles creating a push subscription:
-
-```ruby
-class PushSubscriptionsController < ActionPushWeb::SubscriptionsController
-  private
-    def push_subscription_params
-      super.merge(owner: Current.user)
-    end
-end
-```
-```erb
-<%= ask_for_web_notifications(href: push_subscriptions_path) do %>
-  <div class="text-blue">Request permission</div>
-<% end %>
-```
-
-If a user denies permission to send notifications:
-
-```erb
-<%= when_web_notifications_disabled do %>
-  <div class="text-red">Notifications aren’t allowed</div>
-<% end %>
-```
-
-And if a user grants permission to send notifications:
-
-```erb
-<%= when_web_notifications_allowed class: "text-green" do %>
-  Notifications are allowed
-<% end %>
-```
-
 ## Configuration
 
 The installation will create:
@@ -232,14 +182,14 @@ This ensures error handling and retry logic are in place, and avoids blocking yo
 A Subscription can be associated with any record in your application via the `owner` polymorphic association:
 
 ```ruby
-  user = User.find_by_email_address("pezza@hey.com")
+user = User.find_by_email_address("pezza@hey.com")
 
-  ApplicationPushSubscription.create! \
-    user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.6 Mobile/15E148 Safari/604.1",
-    auth_key: "foStsVKvFCvKS1KJF4OaDS",
-    p256dh_key: "8YZosOgeQYI1lXr6Enahllf56j0VvEynIIm0q37k19QdbclLPNbACud8XSgS1b04TNAFlwyS1niwMx9LoLp8Hsx",
-    endpoint: "https://web.push.apple.com/2UtCfdxa01DJYCW0R7qnA9u4JqYnYo5CHSlR0b95JnMhAW1Zy32ZN9BTLY8KLXogMU3EMuYDWNgdUcX8OaNEZCQOhFp7zeo8US2ZvKYdvGxAjx1ELZH9e3yXHEYlco6vKLfsgOCZxabp63rt80voC5n9i6IzAvMgWmcwz5INfBd",
-    owner: user
+ApplicationPushSubscription.create! \
+  user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.6 Mobile/15E148 Safari/604.1",
+  auth_key: "foStsVKvFCvKS1KJF4OaDS",
+  p256dh_key: "8YZosOgeQYI1lXr6Enahllf56j0VvEynIIm0q37k19QdbclLPNbACud8XSgS1b04TNAFlwyS1niwMx9LoLp8Hsx",
+  endpoint: "https://web.push.apple.com/2UtCfdxa01DJYCW0R7qnA9u4JqYnYo5CHSlR0b95JnMhAW1Zy32ZN9BTLY8KLXogMU3EMuYDWNgdUcX8OaNEZCQOhFp7zeo8US2ZvKYdvGxAjx1ELZH9e3yXHEYlco6vKLfsgOCZxabp63rt80voC5n9i6IzAvMgWmcwz5INfBd",
+  owner: user
 ```
 
 ### `before_delivery` callback
@@ -250,16 +200,16 @@ to the `notification` object. You can also pass additional context data to the n
 by adding extra arguments to the notification constructor:
 
 ```ruby
-  class CalendarPushNotification < ApplicationPushWebNotification
-    before_delivery do |notification|
-      throw :abort if Calendar.find(notification.context[:calendar_id]).expired?
-    end
+class CalendarPushNotification < ApplicationPushWebNotification
+  before_delivery do |notification|
+    throw :abort if Calendar.find(notification.context[:calendar_id]).expired?
   end
+end
 
-  notification = CalendarPushNotification
-    .new(title: "Upcoming event", path: "/events/1", calendar_id: 123)
+notification = CalendarPushNotification
+  .new(title: "Upcoming event", path: "/events/1", calendar_id: 123)
 
-  notification.deliver_later_to(subscription)
+notification.deliver_later_to(subscription)
 ```
 
 ### Using a custom Subscription model
@@ -282,6 +232,57 @@ class CustomSubscription
 end
 ```
 
+On the frontend, there are 3 custom HTML elements that can be accessed via helpers.
+
+The first is when the user has not yet granted permission to send notifications. It
+accepts an `href` attribute to be passed to the helper that points to a create
+action that handles creating a push subscription. By default it points to the
+controller included in ActionPushWeb, `action_push_web.subscriptions_path`. It
+also accepts a `service_worker_url` attribute that points to the service worker.
+By default it points to `pwa_service_worker_path(format: :js)`
+
+You can use what ever HTML you want inside these components. Once the user either grants or denies
+permission the component will hide itself.
+
+```erb
+<%= ask_for_web_notifications(href: action_push_web.subscriptions_path) do %>
+  <div class="text-blue">Request permission</div>
+<% end %>
+```
+
+If a user denies permission to send notifications:
+
+```erb
+<%= when_web_notifications_disabled do %>
+  <div class="text-red">Notifications aren’t allowed</div>
+<% end %>
+```
+
+And if a user grants permission to send notifications:
+
+```erb
+<%= when_web_notifications_allowed class: "text-green" do %>
+  Notifications are allowed
+<% end %>
+```
+
+You can alternatively create a custom controller that handles creating a push subscription:
+
+```ruby
+class PushSubscriptionsController < ActionPushWeb::SubscriptionsController
+  private
+    def push_subscription_params
+      super.merge(owner: Current.user)
+    end
+end
+```
+
+```erb
+<%= ask_for_web_notifications(href: push_subscriptions_path) do %>
+  <div class="text-blue">Request permission</div>
+<% end %>
+```
+
 ## `ActionPushWeb::Notification` attributes
 
 | Name           | Description
@@ -291,7 +292,7 @@ end
 | :badge           | The badge number to display on the app icon.
 | :path            | The path to open when the user taps on the notification.
 | :icon_path       | The path to the icon to display in the notification.
-| :urgency         | The urgency of the notification. [very-low | low | normal | high]
+| :urgency         | The urgency of the notification. (very-low \| low \| normal \| high)
 | **               | Any additional attributes passed to the constructor will be merged in the `context` hash.
 
 ## License

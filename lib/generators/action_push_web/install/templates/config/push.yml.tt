@@ -14,3 +14,9 @@ shared:
 
     # Change the subject (default: mailto:sender@example.com).
     # expiration: mailto:support@my-domain.com
+
+    # Change the urgency (default: normal). You also choose to set this at the notification level.
+    # urgency: high
+
+    # Change the icon path (default: nil). You also choose to set this at the notification level.
+    # icon_path: https://example.com/icon.png
