@@ -13,7 +13,7 @@ shared:
     # expiration: 60
 
     # Change the subject (default: mailto:sender@example.com).
-    # expiration: mailto:support@my-domain.com
+    # subject: mailto:support@my-domain.com
 
     # Change the urgency (default: normal). You also choose to set this at the notification level.
     # urgency: high
