@@ -40,7 +40,7 @@ accepts an `href` attribute to be passed to the helper that points to a create
 action that handles creating a push subscription. By default it points to the
 controller included in ActionPushWeb, `action_push_web.subscriptions_path`. It
 also accepts a `service_worker_url` attribute that points to the service worker.
-By default it points to `service_worker_path(format: :js)`
+By default it points to `pwa_service_worker_path(format: :js)`
 
 You can use what ever HTML you want inside these components. Once the user either grants or denies
 permission the component will hide itself.
