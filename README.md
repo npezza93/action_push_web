@@ -12,21 +12,8 @@ Action Push Web is a Rails push notification gem for the web and PWAs.
 
 This will install the gem and run the necessary migrations to set up the database.
 
-You'll need to add `<%= action_push_web_key_tag %>` to the <head> of your application's layout.
-
 The install generator will also output a generated public and private key that
 you'll want to add to your credentitals.
-
-### With import maps
-
-If you are using [propshaft](https://github.com/rails/propshaft) and [import maps](https://github.com/rails/importmap-rails):
-
-Import it in your JavaScript entry point:
-
-```javascript
-// app/javascript/application.js
-import "action_push_web"
-```
 
 This comes with 3 custom HTML elements that can be accessed via helpers.
 
@@ -88,6 +75,9 @@ The installation will create:
 - `config/push.yml`
 - `app/views/pwa/service_worker.js`
 - mount the subscriptions controllers
+- import action_push_web.js in your application.js
+- Add `<%= action_push_web_key_tag %>` to the <head> of your application's layout if it can find it. Otherwise, you'll need to add it manually.
+
 
 `app/models/application_push_web_notification.rb`:
 ```ruby
