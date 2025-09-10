@@ -1,7 +1,7 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
+iphone:
   endpoint: https://web.push.apple.com/abc
-  p256dh_key: abcd
-  auth_key: xyz
+  p256dh_key: <%= Base64.urlsafe_encode64(OpenSSL::PKey::EC.generate("prime256v1").public_key.to_bn.to_s(2)) %>
+  auth_key: <%= Base64.urlsafe_encode64(Random.new.bytes(16)) %>
   user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.6 Mobile/15E148 Safari/604.1"

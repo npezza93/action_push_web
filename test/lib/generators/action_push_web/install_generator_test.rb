@@ -1,5 +1,5 @@
 require "test_helper"
-require "generators/install/install_generator"
+require "generators/action_push_web/install/install_generator"
 
 module ActionPushWeb
   class InstallGeneratorTest < Rails::Generators::TestCase
