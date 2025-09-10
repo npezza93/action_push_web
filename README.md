@@ -21,12 +21,7 @@ you'll want to add to your credentitals.
 
 If you are using [propshaft](https://github.com/rails/propshaft) and [import maps](https://github.com/rails/importmap-rails):
 
-```ruby
-# importmap.rb
-pin "action_push_web", to: "action_push_web.js"
-```
-
-Then import it in your JavaScript entry point:
+Import it in your JavaScript entry point:
 
 ```javascript
 // app/javascript/application.js
@@ -158,6 +153,9 @@ shared:
 
     # Change the subject (default: mailto:sender@example.com).
     # expiration: mailto:support@my-domain.com
+
+    # Change the urgency (default: normal). You also choose to set this at the notification level.
+    # urgency: high
 ```
 
 This file contains the configuration for the push notification services you want to use.
@@ -302,6 +300,7 @@ end
 | :badge           | The badge number to display on the app icon.
 | :path            | The path to open when the user taps on the notification.
 | :icon_path       | The path to the icon to display in the notification.
+| :urgency         | The urgency of the notification. [very-low | low | normal | high]
 | **               | Any additional attributes passed to the constructor will be merged in the `context` hash.
 
 ## License
