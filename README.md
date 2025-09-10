@@ -286,7 +286,8 @@ class CustomSubscription
   # Your custom device attributes and methods...
 
   def push(notification)
-    ActionPushWeb.push(SubscriptionNotification.new(notification:, subscription: self))
+    ActionPushWeb.push \
+      ActionPushWeb::SubscriptionNotification.new(notification:, subscription: self)
   end
 end
 ```

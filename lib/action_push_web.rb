@@ -15,6 +15,10 @@ module ActionPushWeb
     @pool ||= Pool.new
   end
 
+  def self.pool=(pool)
+    @pool = pool
+  end
+
   def self.config_for(application)
     platform_config = Rails.application.config_for(:push)[:web]
     raise "ActionPushWeb: 'web' platform is not configured" unless platform_config.present?

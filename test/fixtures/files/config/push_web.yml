@@ -1,0 +1,15 @@
+web:
+  public_key: public_key
+  private_key: private_key
+
+  # Change the request timeout (default: 30).
+  # request_timeout: 60
+
+  # Change the ttl (default: 2419200).
+  # ttl: 60
+
+  # Change the expiration (default: 43200).
+  # expiration: 60
+
+  # Change the subject (default: mailto:sender@example.com).
+  # expiration: mailto:support@my-domain.com

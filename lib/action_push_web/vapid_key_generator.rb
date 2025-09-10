@@ -13,10 +13,7 @@ module ActionPushWeb
     end
 
     private
-    attr_reader :ec_key
 
-    def decode_base64url_to_big_number(str)
-      OpenSSL::BN.new(Base64.urlsafe_decode64(str), 2)
-    end
+    attr_reader :ec_key
   end
 end

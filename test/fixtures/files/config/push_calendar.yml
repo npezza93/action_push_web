@@ -1,0 +1,6 @@
+web:
+  application:
+    ttl: 10
+  calendar:
+    public_key: cal_public_key
+    private_key: cal_private_key

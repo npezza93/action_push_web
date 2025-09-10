@@ -2,17 +2,16 @@ module ActionPushWeb
   class Pool
     attr_reader :delivery_pool, :invalidation_pool, :connection
 
-    def initialize
-      @delivery_pool = Concurrent::ThreadPoolExecutor.new(max_threads: 50, queue_size: 10000)
-      @invalidation_pool = Concurrent::FixedThreadPool.new(1)
+    def initialize(delivery_pool: Concurrent::ThreadPoolExecutor.new(max_threads: 50, queue_size: 10000),
+                   invalidation_pool: Concurrent::FixedThreadPool.new(1))
+      @delivery_pool = delivery_pool
+      @invalidation_pool = invalidation_pool
       @connection = Net::HTTP::Persistent.new(name: "action_push_web", pool_size: 150)
     end
 
     def enqueue(notification, config:)
       delivery_pool.post do
         deliver(notification, config)
-      rescue Exception => e
-        Rails.logger.error "Error in ActionPushWeb::Pool.deliver: #{e.class} #{e.message}"
       end
     rescue Concurrent::RejectedExecutionError
     end

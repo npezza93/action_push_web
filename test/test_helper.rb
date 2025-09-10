@@ -20,3 +20,9 @@ class ActiveSupport::TestCase
 end
 
 require "mocha/minitest"
+
+class InlinePoolExecutor
+  def post(&blk) = blk.call
+  def shutdown; end
+  def wait_for_termination(*) = true
+end
