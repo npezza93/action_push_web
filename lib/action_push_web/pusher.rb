@@ -6,8 +6,9 @@ module ActionPushWeb
     end
 
     def push(connection:)
-      request = Net::HTTP::Post.new(uri.request_uri, headers)
-      request.body = payload
+      request = Net::HTTP::Post.new(uri.request_uri, headers).tap do
+        it.body = payload
+      end
 
       connection.request(uri, request).tap { handle_response(it) }
     rescue OpenSSL::OpenSSLError
@@ -65,17 +66,15 @@ module ActionPushWeb
     end
 
     def handle_response(response)
-      if response.is_a?(Net::HTTPGone) # 410
+      if response.is_a?(Net::HTTPGone) || response.is_a?(Net::HTTPNotFound) # 410 || 404
         raise TokenError.new
-      elsif response.is_a?(Net::HTTPNotFound) # 404
-        raise InvalidSubscription.new
       elsif response.is_a?(Net::HTTPUnauthorized) || response.is_a?(Net::HTTPForbidden) || # 401, 403
             response.is_a?(Net::HTTPBadRequest) && response.message == "UnauthorizedRegistration" # 400, Google FCM
-        raise Unauthorized.new
+        raise UnauthorizedError.new
       elsif response.is_a?(Net::HTTPRequestEntityTooLarge) # 413
-        raise PayloadTooLarge.new
+        raise PayloadTooLargeError.new
       elsif response.is_a?(Net::HTTPTooManyRequests) # 429, try again later!
-        raise TooManyRequests.new
+        raise TooManyRequestsError.new
       elsif response.is_a?(Net::HTTPServerError) # 5xx
         raise PushServiceError.new
       elsif !response.is_a?(Net::HTTPSuccess) # unknown/unhandled response error
