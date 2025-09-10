@@ -35,36 +35,36 @@ import "action_push_web"
 
 This comes with 3 custom HTML elements that can be accessed via helpers.
 
-The first is when the user has not granted permission to send notifications. It
-requires an `href` attribute to be passed to the helper. The path should point
-to a controller that creates a `ApplicationPushSubscription`. You can use what
-ever HTML you want inside these components. Once the user either grants or denies
+The first is when the user has not yet granted permission to send notifications. It
+accepts an `href` attribute to be passed to the helper that points to a create
+action that handles creating a push subscription. By default it points to the
+controller included in ActionPushWeb, `action_push_web.subscriptions_path`. It
+also accepts a `service_worker_url` attribute that points to the service worker.
+By default it points to `service_worker_path(format: :js)`
+
+You can use what ever HTML you want inside these components. Once the user either grants or denies
 permission the component will hide itself.
 
 ```erb
-<%= ask_for_web_notifications(href: push_subscriptions_path) do %>
+<%= ask_for_web_notifications(href: action_push_web.subscriptions_path) do %>
   <div class="text-blue">Request permission</div>
 <% end %>
 ```
 
-An example controller that creates a subscription:
+You can alternatively create a custom controller that handles creating a push subscription:
+
 ```ruby
-class PushSubscriptionsController < ApplicationController
-  def create
-    if subscription = ApplicationPushSubscription.find_by(push_subscription_params)
-      subscription.touch
-    else
-      ApplicationPushSubscription.create! push_subscription_params.merge(user_agent: request.user_agent)
-    end
-
-    head :ok
-  end
-
+class PushSubscriptionsController < ActionPushWeb::SubscriptionsController
   private
     def push_subscription_params
-      params.require(:push_subscription).permit(:endpoint, :p256dh_key, :auth_key)
+      super.merge(owner: Current.user)
     end
 end
+```
+```erb
+<%= ask_for_web_notifications(href: push_subscriptions_path) do %>
+  <div class="text-blue">Request permission</div>
+<% end %>
 ```
 
 If a user denies permission to send notifications:
@@ -91,6 +91,8 @@ The installation will create:
 - `app/jobs/application_push_web_notification_job.rb`
 - `app/models/application_push_subscription.rb`
 - `config/push.yml`
+- `app/views/pwa/service_worker.js`
+- mount the subscriptions controllers
 
 `app/models/application_push_web_notification.rb`:
 ```ruby

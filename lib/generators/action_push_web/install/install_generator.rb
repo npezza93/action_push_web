@@ -6,6 +6,9 @@ class ActionPushWeb::InstallGenerator < Rails::Generators::Base
     template "app/models/application_push_web_notification.rb"
     template "app/jobs/application_push_web_notification_job.rb"
     template "config/push.yml"
+    template "app/views/pwa/service_worker.js"
+    route "mount ActionPushWeb::Engine => \"/action_push_web\""
+
     rails_command "railties:install:migrations FROM=action_push_web",
       inline: true
 
