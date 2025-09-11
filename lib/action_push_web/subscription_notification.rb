@@ -7,8 +7,7 @@ module ActionPushWeb
 
     attr_reader :notification, :subscription
 
-    delegate :application, to: :notification
-    delegate :title, :body, :icon_path, :path, :context, :urgency, :silent, :badge, to: :notification
+    delegate_missing_to :notification
     delegate :endpoint, :p256dh_key, :auth_key, to: :subscription
   end
 end
