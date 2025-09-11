@@ -36,7 +36,8 @@ module ActionPushWeb
 
     def deliver_later_to(subscriptions)
       Array(subscriptions).each do |subscription|
-        ApplicationPushWebNotificationJob.set(queue: queue_name).perform_later(self.class.name, self.as_json, subscription)
+        ApplicationPushWebNotificationJob.set(queue: queue_name).
+          perform_later(self.class.name, self.as_json, subscription)
       end
     end
 
@@ -49,7 +50,8 @@ module ActionPushWeb
     end
 
     def as_json
-      { title:, body:, path:, icon_path:, urgency:, silent:, badge:, **context }.compact
+      { title:, body:, path:, icon_path:, urgency:,
+        silent:, badge:, **context }.compact
     end
 
     private

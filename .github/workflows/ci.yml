@@ -39,6 +39,7 @@ jobs:
       - name: Run tests
         env:
           RAILS_ENV: test
+          RUBYOPT: "--enable=frozen-string-literal"
         run: |
           bin/rails db:test:prepare
           bin/rails test
