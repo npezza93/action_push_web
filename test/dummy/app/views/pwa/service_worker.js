@@ -14,8 +14,10 @@ async function updateBadgeCount({ data: { badge } }) {
 self.addEventListener("notificationclick", (event) => {
   event.notification.close()
 
-  const url = new URL(event.notification.data.path, self.location.origin).href
-  event.waitUntil(openURL(url))
+  if (event.notification.data.path) {
+    const url = new URL(event.notification.data.path, self.location.origin).href
+    event.waitUntil(openURL(url))
+  }
 })
 
 async function openURL(url) {

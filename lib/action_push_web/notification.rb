@@ -17,7 +17,7 @@ module ActionPushWeb
       end
     end
 
-    def initialize(title:, path:, body: nil, icon_path: nil, urgency: nil, badge: nil, silent: nil, **context)
+    def initialize(title:, path: nil, body: nil, icon_path: nil, urgency: nil, badge: nil, silent: nil, **context)
       @title = title
       @path = path
       @body = body.to_s
