@@ -2,7 +2,7 @@ module ActionPushWeb
   class Notification
     extend ActiveModel::Callbacks
 
-    attr_accessor :title, :body, :badge, :path, :context, :urgency
+    attr_accessor :title, :body, :path, :context, :urgency, :silent, :badge
     attr_writer   :icon_path
 
     define_model_callbacks :delivery
@@ -17,13 +17,14 @@ module ActionPushWeb
       end
     end
 
-    def initialize(title:, path:, body: nil, icon_path: nil, badge: nil, urgency: nil, **context)
+    def initialize(title:, path:, body: nil, icon_path: nil, urgency: nil, badge: nil, silent: nil, **context)
       @title = title
       @path = path
-      @body = body
+      @body = body.to_s
       @icon_path = icon_path
-      @badge = badge
       @urgency = urgency
+      @silent = silent
+      @badge = badge
       @context = context
     end
 
@@ -48,7 +49,7 @@ module ActionPushWeb
     end
 
     def as_json
-      { title:, body:, path:, badge:, icon_path:, urgency:, **context }.compact
+      { title:, body:, path:, icon_path:, urgency:, silent:, badge:, **context }.compact
     end
 
     private

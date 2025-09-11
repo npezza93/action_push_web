@@ -19,11 +19,11 @@ module ActionPushWeb
 
     attr_reader :config, :notification
 
-    delegate :title, :body, :icon_path, :path, :badge, :endpoint, :p256dh_key,
+    delegate :title, :body, :icon_path, :path, :silent, :badge, :endpoint, :p256dh_key,
       :auth_key, to: :notification
 
     def message
-      JSON.generate title:, options: { body:, icon: icon_path, data: { path:, badge: } }
+      JSON.generate title:, options: { body:, icon: icon_path, silent:, badge:, data: { path: } }
     end
 
     def payload
