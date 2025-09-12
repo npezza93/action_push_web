@@ -9,11 +9,11 @@ module ActionPushWeb
       content_tag("action-push-web-denied", capture(&block), **attrs)
     end
 
-    def when_web_notifications_allowed(**attrs, &block)
+    def when_web_notifications_allowed(href: action_push_web.subscriptions_path, service_worker_url: pwa_service_worker_path(format: :js), **attrs, &block)
       content_tag("action-push-web-granted", capture(&block), **attrs)
     end
 
-    def ask_for_web_notifications(href: action_push_web.subscriptions_path, service_worker_url: pwa_service_worker_path(format: :js), **attrs, &block)
+    def ask_for_web_notifications(**attrs, &block)
       content_tag("action-push-web-request", capture(&block),
         href:, service_worker_url:, **attrs)
     end
