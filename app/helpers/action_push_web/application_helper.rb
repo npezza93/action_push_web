@@ -14,8 +14,7 @@ module ActionPushWeb
     end
 
     def ask_for_web_notifications(**attrs, &block)
-      content_tag("action-push-web-request", capture(&block),
-        href:, service_worker_url:, **attrs)
+      content_tag("action-push-web-request", capture(&block), **attrs)
     end
   end
 end
