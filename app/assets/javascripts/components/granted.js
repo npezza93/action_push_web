@@ -1,3 +1,5 @@
+import { post } from "@rails/request.js"
+
 export default class Granted extends HTMLElement {
   constructor() {
     super();

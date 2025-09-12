@@ -1,5 +1,3 @@
-import { post } from "@rails/request.js"
-
 export default class Request extends HTMLElement {
   static observedAttributes = ["href"];
 
