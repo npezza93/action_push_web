@@ -72,27 +72,24 @@ class Granted extends HTMLElement {
     super();
   }
   connectedCallback() {
-    this.hidden = !this.isEnabled;
     document.addEventListener("action-push-web:granted", this.attributeChangedCallback.bind(this));
     document.addEventListener("action-push-web:denied", this.attributeChangedCallback.bind(this));
+    this.#setState();
   }
   disconnectedCallback() {
     document.removeEventListener("action-push-web:granted", this.attributeChangedCallback.bind(this));
     document.removeEventListener("action-push-web:denied", this.attributeChangedCallback.bind(this));
   }
   attributeChangedCallback() {
-    this.hidden = !this.isEnabled;
-    if (this.isEnabled) {
-      this.subscribe();
-    }
+    this.#setState();
   }
-  async subscribe() {
+  async#subscribe() {
     const registration = await this.#serviceWorkerRegistration || await this.#registerServiceWorker();
     registration.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: this.#vapidPublicKey }).then((subscription) => {
       this.#syncPushSubscription(subscription);
     });
   }
-  get isEnabled() {
+  get #isEnabled() {
     return !!navigator.serviceWorker && !!window.Notification && Notification.permission == "granted";
   }
   get #serviceWorkerRegistration() {
@@ -113,6 +110,12 @@ class Granted extends HTMLElement {
   #extractJsonPayloadAsString(subscription) {
     const { endpoint, keys: { p256dh, auth } } = subscription.toJSON();
     return JSON.stringify({ push_subscription: { endpoint, p256dh_key: p256dh, auth_key: auth } });
+  }
+  #setState() {
+    this.hidden = !this.#isEnabled;
+    if (this.#isEnabled) {
+      this.#subscribe();
+    }
   }
   #urlBase64ToUint8Array(base64String) {
     const padding = "=".repeat((4 - base64String.length % 4) % 4);

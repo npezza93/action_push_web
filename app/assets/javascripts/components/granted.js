@@ -4,9 +4,9 @@ export default class Granted extends HTMLElement {
   }
 
   connectedCallback() {
-    this.hidden = !this.isEnabled;
     document.addEventListener('action-push-web:granted', this.attributeChangedCallback.bind(this));
     document.addEventListener('action-push-web:denied', this.attributeChangedCallback.bind(this));
+    this.#setState()
   }
 
   disconnectedCallback() {
@@ -15,13 +15,10 @@ export default class Granted extends HTMLElement {
   }
 
   attributeChangedCallback() {
-    this.hidden = !this.isEnabled;
-    if (this.isEnabled) {
-      this.subscribe()
-    }
+    this.#setState()
   }
 
-  async subscribe() {
+  async #subscribe() {
     const registration = await this.#serviceWorkerRegistration || await this.#registerServiceWorker()
     registration.pushManager
       .subscribe({ userVisibleOnly: true, applicationServerKey: this.#vapidPublicKey })
@@ -30,7 +27,7 @@ export default class Granted extends HTMLElement {
       })
   }
 
-  get isEnabled() {
+  get #isEnabled() {
     return !!navigator.serviceWorker && !!window.Notification && Notification.permission == "granted"
   }
 
@@ -57,6 +54,13 @@ export default class Granted extends HTMLElement {
     const { endpoint, keys: { p256dh, auth } } = subscription.toJSON()
 
     return JSON.stringify({ push_subscription: { endpoint, p256dh_key: p256dh, auth_key: auth } })
+  }
+
+  #setState() {
+    this.hidden = !this.#isEnabled;
+    if (this.#isEnabled) {
+      this.#subscribe()
+    }
   }
 
   // VAPID public key comes encoded as base64 but service worker registration needs it as a Uint8Array
