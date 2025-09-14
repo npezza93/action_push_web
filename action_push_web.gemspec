@@ -1,7 +1,7 @@
 require_relative "lib/action_push_web/version"
 
 Gem::Specification.new do |spec|
-  spec.name        = "action_push_web"
+  spec.name        = "pezza_action_push_web"
   spec.version     = ActionPushWeb::VERSION
   spec.authors     = [ "Nick Pezza" ]
   spec.email       = [ "pezza@hey.com" ]
