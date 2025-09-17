@@ -30,7 +30,7 @@ export default class Granted extends HTMLElement {
   }
 
   get #isEnabled() {
-    return !!navigator.serviceWorker && !!window.Notification && Notification.permission == "granted"
+    return !!navigator.serviceWorker && !!window.Notification && Notification.permission == "granted" && this.getAttribute('href') && this.getAttribute('public-key')
   }
 
   get #serviceWorkerRegistration() {
@@ -38,8 +38,7 @@ export default class Granted extends HTMLElement {
   }
 
   get #vapidPublicKey() {
-    const encodedVapidPublicKey = document.querySelector('meta[name="action-push-web-public-key"]').content
-    return this.#urlBase64ToUint8Array(encodedVapidPublicKey)
+    return this.#urlBase64ToUint8Array(this.getAttribute('public-key'))
   }
 
   async #syncPushSubscription(subscription) {

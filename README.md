@@ -26,7 +26,6 @@ The installation will create:
 - `app/views/pwa/service_worker.js`
 - mount the subscriptions controllers
 - import action_push_web.js in your application.js
-- Add `<%= action_push_web_key_tag %>` to the <head> of your application's layout if it can find it. Otherwise, you'll need to add it manually.
 
 
 `app/models/application_push_web_notification.rb`:

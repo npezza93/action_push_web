@@ -31,7 +31,7 @@ export default class Request extends HTMLElement {
   }
 
   get isEnabled() {
-    return navigator.serviceWorker && window.Notification && Notification.permission == "default" && this.getAttribute('href')
+    return navigator.serviceWorker && window.Notification && Notification.permission == "default"
   }
 
   get #isDisabled() {

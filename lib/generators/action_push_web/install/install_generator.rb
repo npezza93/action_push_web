@@ -26,14 +26,6 @@ class ActionPushWeb::InstallGenerator < Rails::Generators::Base
       # run "yarn add action_push_web"
     end
 
-    if APPLICATION_LAYOUT_PATH.exist?
-      say "Add action push web meta tag in application layout"
-      insert_into_file APPLICATION_LAYOUT_PATH.to_s, "\n    <%= action_push_web_key_tag %>", before: /\s*<\/head>/
-    else
-      say "Default application.html.erb is missing!", :red
-      say "        Add <%= action_push_web_key_tag %> within the <head> tag in your custom layout."
-    end
-
     rails_command "railties:install:migrations FROM=action_push_web",
       inline: true
 

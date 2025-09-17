@@ -24,7 +24,7 @@ class Request extends HTMLElement {
     this.#setState();
   }
   get isEnabled() {
-    return navigator.serviceWorker && window.Notification && Notification.permission == "default" && this.getAttribute("href");
+    return navigator.serviceWorker && window.Notification && Notification.permission == "default";
   }
   get #isDisabled() {
     return this.hasAttribute("disabled");
@@ -376,14 +376,13 @@ class Granted extends HTMLElement {
     });
   }
   get #isEnabled() {
-    return !!navigator.serviceWorker && !!window.Notification && Notification.permission == "granted";
+    return !!navigator.serviceWorker && !!window.Notification && Notification.permission == "granted" && this.getAttribute("href") && this.getAttribute("public-key");
   }
   get #serviceWorkerRegistration() {
     return navigator.serviceWorker.getRegistration();
   }
   get #vapidPublicKey() {
-    const encodedVapidPublicKey = document.querySelector('meta[name="action-push-web-public-key"]').content;
-    return this.#urlBase64ToUint8Array(encodedVapidPublicKey);
+    return this.#urlBase64ToUint8Array(this.getAttribute("public-key"));
   }
   async#syncPushSubscription(subscription) {
     const response = await post(this.getAttribute("href"), {
