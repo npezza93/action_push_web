@@ -5,7 +5,5 @@
   "scripts": {
     "build": "bun run bun.config.js"
   },
-  "dependencies": {
-    "@rails/request.js": "^0.0.12"
-  }
+  "dependencies": {}
 }

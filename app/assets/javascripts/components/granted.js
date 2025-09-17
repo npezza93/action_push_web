@@ -1,5 +1,3 @@
-import { post } from "@rails/request.js"
-
 export default class Granted extends HTMLElement {
   constructor() {
     super();
@@ -42,13 +40,16 @@ export default class Granted extends HTMLElement {
   }
 
   async #syncPushSubscription(subscription) {
-    const response = await post(this.getAttribute('href'), {
+    const response = await fetch(this.getAttribute('href'), {
+      method: "POST",
       body: this.#extractJsonPayloadAsString(subscription),
+      headers: {
+        Accept: "text/vnd.turbo-stream.html, text/html, application/xhtml+xml",
+        "Content-Type": "application/json",
+        "X-CSRF-Token": document.querySelector("meta[name=csrf-token]").content
+      }
     })
-
-    if (!response.ok) {
-      subscription.unsubscribe()
-    }
+    if (!response.ok) subscription.unsubscribe()
   }
 
   #extractJsonPayloadAsString(subscription) {
