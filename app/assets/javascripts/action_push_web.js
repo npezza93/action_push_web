@@ -10,11 +10,6 @@ class Request extends HTMLElement {
     this.addEventListener("click", this.onClick);
   }
   #setState() {
-    if (this.isEnabled) {
-      this.removeAttribute("disabled");
-    } else {
-      this.setAttribute("disabled", true);
-    }
     this.hidden = !this.isEnabled;
   }
   disconnectedCallback() {
@@ -26,13 +21,10 @@ class Request extends HTMLElement {
   get isEnabled() {
     return navigator.serviceWorker && window.Notification && Notification.permission == "default";
   }
-  get #isDisabled() {
-    return this.hasAttribute("disabled");
-  }
   async onClick(event) {
     event.preventDefault();
     event.stopPropagation();
-    if (this.isEnabled && !this.isDisabled) {
+    if (this.isEnabled) {
       const permission = await Notification.requestPermission();
       if (permission === "granted") {
         document.dispatchEvent(new CustomEvent("action-push-web:granted", {}));
