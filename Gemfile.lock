@@ -114,7 +114,7 @@ GEM
       date
       stringio
     public_suffix (6.0.2)
-    puma (7.0.2)
+    puma (7.0.3)
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.2.1)
@@ -180,8 +180,8 @@ GEM
     ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
     securerandom (0.4.1)
-    sqlite3 (2.7.3-arm64-darwin)
-    sqlite3 (2.7.3-x86_64-linux-gnu)
+    sqlite3 (2.7.4-arm64-darwin)
+    sqlite3 (2.7.4-x86_64-linux-gnu)
     stringio (3.1.7)
     thor (1.4.0)
     timeout (0.4.3)
@@ -259,7 +259,7 @@ CHECKSUMS
   propshaft (1.2.1) sha256=e9b91daf52f21152f851a59f8621af53ffb4dc4401f9b5f8fe16065190b98654
   psych (5.2.6) sha256=814328aa5dcb6d604d32126a20bc1cbcf05521a5b49dbb1a8b30a07e580f316e
   public_suffix (6.0.2) sha256=bfa7cd5108066f8c9602e0d6d4114999a5df5839a63149d3e8b0f9c1d3558394
-  puma (7.0.2) sha256=cb419624b3dbd122852ca4d7ced87e40a51c2b08c6166b302c49ef5b3de20c82
+  puma (7.0.3) sha256=131b5fd02c89c2445114cdce906114e75ea4cf22842fcf5bbee4500f1c868ba5
   racc (1.8.1) sha256=4a7f6929691dbec8b5209a0b373bc2614882b55fc5d2e447a21aaa691303d62f
   rack (3.2.1) sha256=30af3f7e5ec21b0d14d822cf24446048dba5f651b617c7e97405b604f20a9e33
   rack-session (2.1.1) sha256=0b6dc07dea7e4b583f58a48e8b806d4c9f1c6c9214ebc202ec94562cbea2e4e9
@@ -282,8 +282,8 @@ CHECKSUMS
   ruby-progressbar (1.13.0) sha256=80fc9c47a9b640d6834e0dc7b3c94c9df37f08cb072b7761e4a71e22cff29b33
   ruby2_keywords (0.0.5) sha256=ffd13740c573b7301cf7a2e61fc857b2a8e3d3aff32545d6f8300d8bae10e3ef
   securerandom (0.4.1) sha256=cc5193d414a4341b6e225f0cb4446aceca8e50d5e1888743fac16987638ea0b1
-  sqlite3 (2.7.3-arm64-darwin) sha256=133772f4312a9d0fa0c16aab7c2abdda2ee93f47dded0f353a2981f7b9d2b9b4
-  sqlite3 (2.7.3-x86_64-linux-gnu) sha256=11b2612fddf56602d238be7a984fa0633e591edd034f7520747bc0927b7fa865
+  sqlite3 (2.7.4-arm64-darwin) sha256=d5b09cd4e9542aa05f0db0eb7dd868102cc23072ae378e0453e59e0efaed89b8
+  sqlite3 (2.7.4-x86_64-linux-gnu) sha256=0755b458f5501e89c0d5a0003afc4fdd6fd059eb1fb1424221532917096da4be
   stringio (3.1.7) sha256=5b78b7cb242a315fb4fca61a8255d62ec438f58da2b90be66048546ade4507fa
   thor (1.4.0) sha256=8763e822ccb0f1d7bee88cde131b19a65606657b847cc7b7b4b82e772bcd8a3d
   timeout (0.4.3) sha256=9509f079b2b55fe4236d79633bd75e34c1c1e7e3fb4b56cb5fda61f80a0fe30e
