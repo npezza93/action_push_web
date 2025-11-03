@@ -46,7 +46,7 @@ module ActionPushWeb
     end
 
     def urgency
-      (@urgency.presence || config.fetch(:urgency, :normal)).to_s
+      (@urgency.presence || config.fetch(:urgency, :high)).to_s
     end
 
     def as_json

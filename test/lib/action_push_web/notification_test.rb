@@ -38,7 +38,7 @@ module ActionPushWeb
             path: "/home", calendar_id: 1)
 
       expected = { title: "Hi!", body: "This is a push notification", badge: 1,
-          path: "/home", calendar_id: 1, urgency: "normal" }
+          path: "/home", calendar_id: 1, urgency: "high" }
 
       assert_equal(expected, notification.as_json)
     end
@@ -70,7 +70,7 @@ module ActionPushWeb
     test "#urgency when not set" do
       notification = ActionPushWeb::Notification.
         new(title: "Hi!", path: "/home")
-      assert_equal("normal", notification.as_json[:urgency])
+      assert_equal("high", notification.as_json[:urgency])
     end
 
     test "#icon_path when set in notification" do

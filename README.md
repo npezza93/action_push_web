@@ -93,8 +93,8 @@ shared:
     # Change the subject (default: mailto:sender@example.com).
     # expiration: mailto:support@my-domain.com
 
-    # Change the urgency (default: normal). You also choose to set this at the notification level.
-    # urgency: high
+    # Change the urgency (default: high). You also choose to set this at the notification level.
+    # urgency: normal
 ```
 
 This file contains the configuration for the push notification services you want to use.
