@@ -1,13 +1,8 @@
 module ActionPushWeb
   class SubscriptionsController < ApplicationController
     def create
-      if subscription = ApplicationPushSubscription.find_by(push_subscription_params)
-        subscription.touch
-      else
-        ApplicationPushSubscription.create! push_subscription_params.merge(user_agent: request.user_agent)
-      end
-
-      head :ok
+      ApplicationPushSubscription.create_with(user_agent: request.user_agent).
+        create_or_find_by!(push_subscription_params)
     end
 
     private
