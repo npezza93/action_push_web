@@ -6,6 +6,7 @@ module ActionPushWeb
 
     test "device is destroyed on TokenError" do
       iphone = action_push_web_subscriptions(:iphone)
+      stub_dns_resolution("93.184.216.34")
       stub_request(:post, "https://web.push.apple.com/abc").to_return(status: 404)
 
       ActionPushWeb.pool = ActionPushWeb::Pool.new(

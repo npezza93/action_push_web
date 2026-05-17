@@ -26,7 +26,10 @@ module ActionPushWeb
     end
 
     test "ActiveJob::DeserializationError errors are discarded" do
-      subscription = action_push_web_subscriptions(:iphone).dup.tap(&:save!)
+      stub_dns_resolution("93.184.216.34")
+      subscription = action_push_web_subscriptions(:iphone).dup
+      subscription.endpoint = "https://web.push.apple.com/jkl"
+      subscription.save!
       Notification.any_instance.stubs(:deliver_to).raises(TokenError)
 
       subscription.destroy
@@ -39,6 +42,7 @@ module ActionPushWeb
 
     test "Response errors are retried" do
       subscription = action_push_web_subscriptions(:iphone)
+      stub_dns_resolution("93.184.216.34")
       stub_request(:post, "https://web.push.apple.com/abc").to_return(status: 500)
 
       ActionPushWeb.pool = ActionPushWeb::Pool.new(delivery_pool: InlinePoolExecutor.new)

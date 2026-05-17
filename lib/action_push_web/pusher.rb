@@ -10,7 +10,11 @@ module ActionPushWeb
         it.body = payload
       end
 
-      connection.request(uri, request).tap { handle_response(it) }
+      if resolved_endpoint_ip
+        pinned_connection.request(request)
+      else
+        connection.request(uri, request)
+      end.tap { handle_response(it) }
     rescue OpenSSL::OpenSSLError
       raise TokenError.new
     end
@@ -20,7 +24,7 @@ module ActionPushWeb
     attr_reader :config, :notification
 
     delegate :title, :body, :icon_path, :path, :silent, :badge, :endpoint, :p256dh_key,
-      :auth_key, to: :notification
+      :auth_key, :resolved_endpoint_ip, to: :notification
 
     def message
       JSON.generate title:, options: { body:, icon: icon_path, silent:, badge:, data: { path: } }
@@ -36,6 +40,13 @@ module ActionPushWeb
 
     def uri
       @uri ||= URI.parse(endpoint)
+    end
+
+    def pinned_connection
+      Net::HTTP.new(uri.host, uri.port).tap do |http|
+        http.ipaddr = resolved_endpoint_ip
+        http.use_ssl = true
+      end
     end
 
     def headers

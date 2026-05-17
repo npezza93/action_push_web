@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_09_235643) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_17_003340) do
   create_table "action_push_web_subscriptions", force: :cascade do |t|
     t.string "auth_key", null: false
     t.datetime "created_at", null: false
@@ -20,6 +20,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_09_235643) do
     t.string "p256dh_key", null: false
     t.datetime "updated_at", null: false
     t.string "user_agent"
+    t.index ["endpoint"], name: "index_action_push_web_subscriptions_on_endpoint", unique: true, where: "owner_id IS NULL AND owner_type IS NULL"
     t.index ["owner_type", "owner_id", "endpoint"], name: "idx_on_owner_type_owner_id_endpoint_4117018753", unique: true
     t.index ["owner_type", "owner_id"], name: "index_action_push_web_subscriptions_on_owner"
   end

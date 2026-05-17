@@ -3,6 +3,8 @@ module ActionPushWeb
     def create
       ApplicationPushSubscription.create_with(user_agent: request.user_agent).
         create_or_find_by!(push_subscription_params)
+
+      head :ok
     end
 
     private
