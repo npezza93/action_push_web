@@ -6,6 +6,7 @@ ActiveRecord::Migrator.migrations_paths = [ File.expand_path("../test/dummy/db/m
 ActiveRecord::Migrator.migrations_paths << File.expand_path("../db/migrate", __dir__)
 require "rails/test_help"
 require "webmock/minitest"
+require "webmock_ipaddr_extension"
 require "dns_test_helper"
 
 # Load fixtures from the engine
