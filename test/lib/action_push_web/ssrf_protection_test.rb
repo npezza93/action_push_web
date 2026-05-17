@@ -84,4 +84,4 @@ module ActionPushWeb
       assert_nil SsrfProtection.resolve_public_ip("compat-public.example.com")
     end
   end
-  end
+end
