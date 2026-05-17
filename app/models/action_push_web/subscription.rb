@@ -21,6 +21,11 @@ module ActionPushWeb
       ActionPushWeb.push(SubscriptionNotification.new(notification:, subscription: self))
     end
 
+    def resolved_endpoint_ip
+      return @resolved_endpoint_ip if defined?(@resolved_endpoint_ip)
+      @resolved_endpoint_ip = SsrfProtection.resolve_public_ip(endpoint_uri&.host)
+    end
+
     private
 
       def endpoint_uri
@@ -36,6 +41,8 @@ module ActionPushWeb
           errors.add(:endpoint, "must use HTTPS")
         elsif !permitted_endpoint_host?
           errors.add(:endpoint, "is not a permitted push service")
+        elsif resolved_endpoint_ip.nil?
+          errors.add(:endpoint, "resolves to a private or invalid IP address")
         end
       end
 
