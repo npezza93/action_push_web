@@ -124,5 +124,19 @@ module ActionPushWeb
       end
       assert iphone.destroyed?
     end
+
+    test "rejects endpoint whose host resolves to nothing without raising" do
+      stub_dns_failure
+
+      subscription = Subscription.new(
+        endpoint: "https://fcm.googleapis.com/fcm/send/abc123",
+        p256dh_key: "test_key",
+        auth_key: "test_auth"
+      )
+
+      assert_nil subscription.resolved_endpoint_ip
+      assert_not subscription.valid?
+      assert_includes subscription.errors[:endpoint], "resolves to a private or invalid IP address"
+    end
   end
 end

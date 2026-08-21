@@ -4,6 +4,7 @@ require "action_push_web/errors"
 require "net/http"
 require "net/http/persistent"
 require "jwt"
+require "surfguard"
 
 loader= Zeitwerk::Loader.for_gem(warn_on_extra_files: false)
 loader.ignore("#{__dir__}/generators")
